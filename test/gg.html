@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro com o google e o github</title>
+</head>
+<body>
+    
+    <h1>Cadastro</h1>
+    <form id="cadastro-form">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" required><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" required><br>
+
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha" required><br>
+
+        <label for="termos">Aceito os termos de serviço:</label>
+        <input type="checkbox" id="termos" required><br>
+
+        <button type="submit" id="cadastro-btn">Cadastrar</button>
+     
+    </form>
+
+    <h1>Login</h1>
+    <form id="login-form">
+        <label for="email-login">Email:</label>
+        <input type="email" id="email-login" required><br>
+
+        <label for="senha-login">Senha:</label>
+        <input type="password" id="senha-login" required><br>
+
+        <button type="submit" id="login-btn">Entrar</button>
+        <button type="button" id="google-login-btn">Login com Google</button>
+        <button type="button" id="github-login-btn">Login com GitHub</button>
+    </form>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script>
+        
+       // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBB5YpfLsp9g2iqNcj1oGqpQ4-zq2ghVsM",
+  authDomain: "cadastro-411de.firebaseapp.com",
+  databaseURL: "https://cadastro-411de-default-rtdb.firebaseio.com",
+  projectId: "cadastro-411de",
+  storageBucket: "cadastro-411de.appspot.com",
+  messagingSenderId: "279976171170",
+  appId: "1:279976171170:web:caa77af161cfb3eca329fb",
+  measurementId: "G-KJ7JK4LDPP"
+};
+
+        firebase.initializeApp(firebaseConfig);
+
+   
+    const cadastroForm = document.getElementById("cadastro-form");
+    const nomeInput = document.getElementById("nome");
+    const emailInput = document.getElementById("email");
+    const senhaInput = document.getElementById("senha");
+    const termosCheckbox = document.getElementById("termos");
+
+    const loginForm = document.getElementById("login-form");
+    const emailLoginInput = document.getElementById("email-login");
+    const senhaLoginInput = document.getElementById("senha-login");
+
+    const cadastroBtn = document.getElementById("cadastro-btn");
+    const loginBtn = document.getElementById("login-btn");
+    const googleLoginBtn = document.getElementById("google-login-btn");
+    const githubLoginBtn = document.getElementById("github-login-btn");
+
+    // Adicionar um ouvinte de evento ao formulário de cadastro
+    cadastroForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const nome = nomeInput.value;
+        const email = emailInput.value;
+        const senha = senhaInput.value;
+
+        if (!termosCheckbox.checked) {
+            alert("Você precisa aceitar os termos de serviço.");
+            return;
+        }
+
+        // Cadastrar usuário com email e senha
+        firebase.auth().createUserWithEmailAndPassword(email, senha)
+            .then((userCredential) => {
+                // Redirecionar para a página de índice
+                window.location.href = "index.html";
+            })
+            .catch((error) => {
+                alert(`Erro ao cadastrar: ${error.message}`);
+            });
+    });
+
+    // Adicionar um ouvinte de evento ao formulário de login
+    loginForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const email = emailLoginInput.value;
+        const senha = senhaLoginInput.value;
+
+        // Autenticar usuário com email e senha
+        firebase.auth().signInWithEmailAndPassword(email, senha)
+            .then((userCredential) => {
+                // Redirecionar para a página de índice
+                window.location.href = "index.html";
+            })
+            .catch((error) => {
+                alert(`Erro ao fazer login: ${error.message}`);
+            });
+    });
+
+    // Adicionar um ouvinte de evento para login com Google
+    googleLoginBtn.addEventListener("click", () => {
+        const provider = new firebase.auth.GoogleAuthProvider();
+
+        firebase.auth().signInWithPopup(provider)
+            .then((result) => {
+                // Redirecionar para a página de índice
+                window.location.href = "index.html";
+            })
+            .catch((error) => {
+                alert(`Erro ao fazer login com o Google: ${error.message}`);
+            });
+    });
+
+    // Adicionar um ouvinte de evento para login com GitHub
+    githubLoginBtn.addEventListener("click", () => {
+        const provider = new firebase.auth.GithubAuthProvider();
+
+        firebase.auth().signInWithPopup(provider)
+            .then((result) => {
+                // Redirecionar para a página de índice
+                window.location.href = "index.html";
+            })
+            .catch((error) => {
+                alert(`Erro ao fazer login com o GitHub: ${error.message}`);
+            });
+    });
+     googleLoginBtn.addEventListener("click", () => {
+        const provider = new firebase.auth.GoogleAuthProvider();
+
+        firebase.auth().signInWithPopup(provider)
+            .then((result) => {
+                // Redirecionar para a página de índice
+                window.location.href = "index.html";
+            })
+            .catch((error) => {
+                alert(`Erro ao cadastrar com o Google: ${error.message}`);
+            });
+    });
+
+    // Adicionar um ouvinte de evento ao botão de cadastro com GitHub
+    githubLoginBtn.addEventListener("click", () => {
+        const provider = new firebase.auth.GithubAuthProvider();
+
+        firebase.auth().signInWithPopup(provider)
+            .then((result) => {
+                // Redirecionar para a página de índice
+                window.location.href = "index.html";
+            })
+            .catch((error) => {
+                alert(`Erro ao cadastrar com o GitHub: ${error.message}`);
+            });
+    });
+
+
+    </script>
+</body>
+</html>

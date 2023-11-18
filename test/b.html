@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cadastro de Usuário</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            width: 50%;
+            margin: 0 auto;
+        }
+        .form-container {
+            background: #f7f7f7;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Cadastro de Usuário</h1>
+        <div class="form-container">
+            <form id="signup-form">
+                <label for="email">E-mail:</label>
+                <input type="email" id="email" required>
+                <br>
+                <label for="password">Senha:</label>
+                <input type="password" id="password" required>
+                <br>
+                <input type="checkbox" id="agree-terms">
+                <label for="agree-terms">Eu concordo com os <a href="termos-de-servico.html" target="_blank">Termos de Serviço</a></label>
+                <br>
+                <button type="button" id="submit-button">Cadastrar</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script>
+        // Configurar sua configuração do Firebase aqui
+        const firebaseConfig = {
+  apiKey: "AIzaSyBB5YpfLsp9g2iqNcj1oGqpQ4-zq2ghVsM",
+  authDomain: "cadastro-411de.firebaseapp.com",
+  databaseURL: "https://cadastro-411de-default-rtdb.firebaseio.com",
+  projectId: "cadastro-411de",
+  storageBucket: "cadastro-411de.appspot.com",
+  messagingSenderId: "279976171170",
+  appId: "1:279976171170:web:caa77af161cfb3eca329fb",
+  measurementId: "G-KJ7JK4LDPP"
+};
+
+        firebase.initializeApp(firebaseConfig);
+
+        const signupForm = document.getElementById('signup-form');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const agreeTermsCheckbox = document.getElementById('agree-terms');
+        const submitButton = document.getElementById('submit-button');
+
+        submitButton.addEventListener('click', () => {
+            const email = emailInput.value;
+            const password = passwordInput.value;
+            const agreedToTerms = agreeTermsCheckbox.checked;
+
+            if (email && password && agreedToTerms) {
+                // Criar usuário no Firebase
+                firebase.auth().createUserWithEmailAndPassword(email, password)
+                    .then((userCredential) => {
+                        // Usuário cadastrado com sucesso
+                        window.location.href = 'index.html';
+                    })
+                    .catch((error) => {
+                        alert(error.message);
+                    });
+            } else {
+                alert('Preencha todos os campos e concorde com os Termos de Serviço.');
+            }
+        });
+    </script>
+</body>
+</html>

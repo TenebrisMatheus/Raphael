@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cadastro com Firebase</title>
+</head>
+<body>
+    <h1>Cadastro</h1>
+    <form id="cadastro-form">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" required><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" required><br>
+
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha" required><br>
+
+        <label for="termos">Aceito os termos de serviço:</label>
+        <input type="checkbox" id="termos" required><br>
+
+        <button type="submit" id="cadastro-btn" disabled>Cadastrar</button>
+        <button type="button" id="google-login-btn">Cadastrar com Google</button>
+        <button type="button" id="github-login-btn">Cadastrar com GitHub</button>
+    </form>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+
+    <script>
+
+        const firebaseConfig = {
+  apiKey: "AIzaSyBB5YpfLsp9g2iqNcj1oGqpQ4-zq2ghVsM",
+  authDomain: "cadastro-411de.firebaseapp.com",
+  databaseURL: "https://cadastro-411de-default-rtdb.firebaseio.com",
+  projectId: "cadastro-411de",
+  storageBucket: "cadastro-411de.appspot.com",
+  messagingSenderId: "279976171170",
+  appId: "1:279976171170:web:caa77af161cfb3eca329fb",
+  measurementId: "G-KJ7JK4LDPP"
+};
+        firebase.initializeApp(firebaseConfig);
+
+        const cadastroForm = document.getElementById("cadastro-form");
+        const nomeInput = document.getElementById("nome");
+        const emailInput = document.getElementById("email");
+        const senhaInput = document.getElementById("senha");
+        const termosCheckbox = document.getElementById("termos");
+        const cadastroBtn = document.getElementById("cadastro-btn");
+        const googleLoginBtn = document.getElementById("google-login-btn");
+        const githubLoginBtn = document.getElementById("github-login-btn");
+
+        cadastroForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const nome = nomeInput.value;
+            const email = emailInput.value;
+            const senha = senhaInput.value;
+
+            if (!termosCheckbox.checked) {
+                alert("Você precisa aceitar os termos de serviço.");
+                return;
+            }
+
+            firebase.auth().createUserWithEmailAndPassword(email, senha)
+                .then((userCredential) =>{
+                    window.location.href = "index.html";
+                })
+                .catch((error) => {
+                    alert(`Erro ao cadastrar: ${error.message}`);
+                });
+        });
+        termosCheckbox.addEventListener("change", () => {
+            cadastroBtn.disabled = !termosCheckbox.checked;
+        });
+        googleLoginBtn.addEventListener("click", () => {
+            const provider = new firebase.auth.GoogleAuthProvider();
+
+            firebase.auth().signInWithPopup(provider)
+                .then((result) => {
+                    window.location.href = "index.html";
+                })
+                .catch((error) => {
+                    alert(`Erro ao cadastrar com o Google: ${error.message}`);
+                });
+        });
+        githubLoginBtn.addEventListener("click", () => {
+            const provider = new firebase.auth.GithubAuthProvider();
+
+            firebase.auth().signInWithPopup(provider)
+                .then((result) => {
+                    window.location.href = "index.html";
+                })
+                .catch((error) => {
+                    alert(`Erro ao cadastrar com o GitHub: ${error.message}`);
+                });
+        });
+    </script>
+</body>
+</html>

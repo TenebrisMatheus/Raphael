@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro com Firebase</title>
+    <link href="t.html">
+</head>
+<body>
+    <h1>Cadastro com Firebase</h1>
+    <p>Antes de criar sua conta, por favor, aceite os Termos de Uso.</p>
+
+    <!-- Caixa de seleção para aceitar os Termos de Uso -->
+    <label>
+        <input type="checkbox" id="acceptTerms">
+        Eu aceito os Termos de Uso.
+    </label>
+
+    <button id="signupButton" onclick="createAccount()">Cadastrar com Google</button>
+
+    
+    <button type="button" id="sair-btn">Sair</button>
+
+    <!-- Inclua o Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script>
+        
+        const firebaseConfig = {
+    apiKey: "AIzaSyBB5YpfLsp9g2iqNcj1oGqpQ4-zq2ghVsM",
+    authDomain: "cadastro-411de.firebaseapp.com",
+    databaseURL: "https://cadastro-411de-default-rtdb.firebaseio.com",
+    projectId: "cadastro-411de",
+    storageBucket: "cadastro-411de.appspot.com",
+    messagingSenderId: "279976171170",
+    appId: "1:279976171170:web:caa77af161cfb3eca329fb",
+    measurementId: "G-KJ7JK4LDPP"
+  };
+  firebase.initializeApp(firebaseConfig);
+
+        // Função para criar uma conta com o Google após aceitar os Termos de Uso
+        function createAccount() {
+            const acceptTerms = document.getElementById('acceptTerms');
+
+            if (acceptTerms.checked) {
+                // Se os Termos de Uso foram aceitos, inicie o processo de autenticação com o Google
+                const provider = new firebase.auth.GoogleAuthProvider();
+
+                firebase.auth()
+                    .signInWithPopup(provider)
+                    .then((result) => {
+                        // Autenticação bem-sucedida, faça algo com o usuário logado, se necessário
+                        const user = result.user;
+                        console.log('Usuário logado:', user);
+                    })
+                    .catch((error) => {
+                        console.error('Erro ao autenticar com o Google:', error);
+                    });
+            } else {
+                alert('Você deve aceitar os Termos de Uso para continuar.');
+            }
+        }
+
+
+    const sairBtn = document.getElementById("sair-btn");
+
+    // Adicione um ouvinte de evento ao botão de encerramento de sessão
+    sairBtn.addEventListener("click", () => {
+        firebase.auth().signOut()
+            .then(() => {
+                // Redirecionar para a página "t.html" após encerrar a sessão
+                window.location.href = "t.html";
+            })
+            .catch((error) => {
+                console.error("Erro ao encerrar a sessão:", error);
+            });
+    });
+</script>
+
+</body>
+</html>

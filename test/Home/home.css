@@ -1,0 +1,67 @@
+.navbar {
+    background: linear-gradient(to bottom, red, black); 
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    padding: 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+}
+
+
+h1 {
+    text-align: center;
+    margin-top: 100px;
+    font-size: 36px;
+}
+
+.menu-dropdown {
+    display: none;
+    position: absolute;
+    top: 50px;
+    right: 10px;
+    background-color: #333;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.menu-dropdown a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    margin: 5px 0;
+}
+
+.menu-dropdown.show-menu {
+    display: block;
+}
+.menu-icon{
+    cursor: pointer;
+    order: 100;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, black, red);
+    background-attachment: fixed;
+}
+
